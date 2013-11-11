@@ -6,7 +6,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import com.ideateam.games.anidea.Block;
 import com.ideateam.games.anidea.Game;
+import com.ideateam.games.anidea.GameObject;
 
 public class Level {
 	private int[][] backgroundTiles;
@@ -69,7 +71,10 @@ public class Level {
 	public void generateTerrain() {
 		for(int x = 0; x < Game.WIDTH; x += 32) {
 			for(int y = 0; y < Game.HEIGHT; y += 32) {
-				int randY = new Random().nextInt(Game.HEIGHT - 32);
+				if(y < 256 + (Game.HEIGHT / 2) / 2)
+					continue;
+				
+				int randY = new Random().nextInt(Game.HEIGHT - 48);
 				int id = new Random().nextInt(4);
 				
 				if(id == 0)
@@ -78,8 +83,11 @@ public class Level {
 					terrainTiles[x][randY] = 1;
 				if(id == 2)
 					terrainTiles[x][randY] = 2;
-				if(id == 2)
+				if(id == 3)
 					terrainTiles[x][randY] = 3;
+				
+				GameObject object = new Block(0, x, randY);
+				Game.objects.add(object);
 			}
 		}
 		
@@ -143,12 +151,11 @@ public class Level {
 		if(!isPlayerSpawned)
 			spawnPlayer(g);
 		
-		g.fillRect(playerX, playerY, 32, 32);
+		Game.player.render(gc, g);
 	}
 	
 	public void spawnPlayer(Graphics g) {
-		playerX = Game.WIDTH / 7;
-		playerY = Game.HEIGHT - 64;
+		terrainTiles[playerX][playerY] = 1;
 		
 		isPlayerSpawned = true;
 	}

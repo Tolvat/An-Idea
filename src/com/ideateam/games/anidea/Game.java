@@ -1,11 +1,15 @@
 package com.ideateam.games.anidea;
 
+import java.util.LinkedList;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import com.ideateam.games.anidea.entities.EntityPlayer;
 import com.ideateam.games.anidea.level.Level;
 
 public class Game extends BasicGame {
@@ -16,7 +20,12 @@ public class Game extends BasicGame {
 	public static final int HEIGHT = WIDTH * 9 / 12;
 	public static final boolean FULLSCREEN = false;
 	
-	private Level level;
+	public static LinkedList<GameObject> objects = new LinkedList<GameObject>();
+	
+	public static Input input;
+	
+	public static EntityPlayer player;
+	public static Level level;
 	
 	public Game(String title) {
 		super(title);
@@ -24,12 +33,15 @@ public class Game extends BasicGame {
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		player = new EntityPlayer("Test");
 		level = new Level();
+		input = gc.getInput();
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		level.update(gc, delta);
+		player.update();
 	}
 	
 	@Override
