@@ -11,7 +11,6 @@ import com.ideateam.games.anidea.Game;
 public class Level {
 	private int[][] backgroundTiles;
 	private int[][] terrainTiles;
-	private int[][] playerSpawn;
 	
 	private boolean isPlayerSpawned = false;
 	private boolean generated = false;
@@ -24,14 +23,13 @@ public class Level {
 	public Level() {
 		backgroundTiles = new int[Game.WIDTH][Game.HEIGHT];
 		terrainTiles    = new int[Game.WIDTH][Game.HEIGHT * 4];
-		playerSpawn     = new int[Game.WIDTH][Game.HEIGHT * 4];
 		
 		generateBackground();
 		generateTerrain();
 	}
 	
 	public Color getRandomColor() {
-		int color = new Random().nextInt(6);
+		int color = new Random().nextInt(2);
 		
 		switch(color) {
 			case 0:
@@ -80,8 +78,8 @@ public class Level {
 					terrainTiles[x][randY] = 1;
 				if(id == 2)
 					terrainTiles[x][randY] = 2;
-				if(id == 3)
-					playerSpawn[x][y] = 0;
+				if(id == 2)
+					terrainTiles[x][randY] = 3;
 			}
 		}
 		
@@ -123,7 +121,10 @@ public class Level {
 		}
 		
 		for(int x = 0; x < Game.WIDTH; x += 32) {
-			for(int y = 0; y < Game.HEIGHT * 3; y += 32) {
+			for(int y = 0; y < Game.HEIGHT; y += 32) {
+				if(y < 256 + (Game.HEIGHT / 2) / 2)
+					continue;
+				
 				int id = terrainTiles[x][y];
 				
 				if(id == 0) {
@@ -146,11 +147,8 @@ public class Level {
 	}
 	
 	public void spawnPlayer(Graphics g) {
-		int x = new Random().nextInt(playerSpawn.length);
-		int y = new Random().nextInt(playerSpawn.length);
-			
-		playerX = x;
-		playerY = y;
+		playerX = Game.WIDTH / 7;
+		playerY = Game.HEIGHT - 64;
 		
 		isPlayerSpawned = true;
 	}
