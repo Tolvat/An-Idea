@@ -19,7 +19,6 @@ public class Level {
 	private int playerX;
 	private int playerY;
 	
-	private Color levelColor;
 	private int r = 0;
 	
 	public Level() {
@@ -27,34 +26,31 @@ public class Level {
 		terrainTiles    = new int[Game.WIDTH][Game.HEIGHT * 4];
 		playerSpawn     = new int[Game.WIDTH][Game.HEIGHT * 4];
 		
+		generateBackground();
+		generateTerrain();
+	}
+	
+	public Color getRandomColor() {
 		int color = new Random().nextInt(6);
 		
 		switch(color) {
 			case 0:
-				levelColor = Color.orange;
-				break;
+				return Color.orange;
 			case 1:
-				levelColor = Color.red;
-				break;
+				return Color.red;
 			case 2:
-				levelColor = Color.cyan;
-				break;
+				return Color.cyan;
 			case 3:
-				levelColor = Color.blue;
-				break;
+				return Color.blue;
 			case 4:
-				levelColor = Color.magenta;
-				break;
+				return Color.magenta;
 			case 5:
-				levelColor = Color.orange;
-				break;
+				return Color.orange;
 			case 6:
-				levelColor = Color.red;
-				break;
+				return Color.red;
 		}
 		
-		generateBackground();
-		generateTerrain();
+		return Color.red;
 	}
 	
 	public void generateBackground() {
@@ -131,7 +127,7 @@ public class Level {
 				int id = terrainTiles[x][y];
 				
 				if(id == 0) {
-					g.setColor(levelColor);
+					g.setColor(getRandomColor());
 					g.drawRect(x, y, 32, 32);
 				} else if(id == 5) {
 					g.setColor(Color.red);
